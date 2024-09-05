@@ -1,9 +1,47 @@
+import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 
 export default function DashboardLayout() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <aside className="w-64 bg-white shadow-md">
+      {/* Sidebar */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-md transform ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out md:relative md:translate-x-0`}
+      >
+        <div className="flex items-center justify-between p-4 md:hidden">
+          <h1 className="text-xl font-bold">Menu</h1>
+          <button
+            onClick={toggleSidebar}
+            className="text-gray-700 focus:outline-none"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+          </button>
+        </div>
         <nav className="p-4">
           <ul>
             <li>
@@ -17,18 +55,52 @@ export default function DashboardLayout() {
           </ul>
         </nav>
       </aside>
-      <main className="flex-1 p-6">
-        <nav className="mb-4">
-          <ol className="flex space-x-2 text-gray-500">
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>/</li>
-            <li>Products</li>
-          </ol>
-        </nav>
-        <Outlet />
-      </main>
+
+      {/* Overlay */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 z-20 bg-black opacity-50 md:hidden"
+          onClick={closeSidebar}
+        ></div>
+      )}
+
+      {/* Main content */}
+      <div className="flex-1 flex flex-col">
+        <header className="flex items-center justify-between p-4 bg-white shadow-md md:hidden">
+          <button
+            onClick={toggleSidebar}
+            className="text-gray-700 focus:outline-none"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+          </button>
+          <h1 className="text-xl font-bold">Dashboard</h1>
+        </header>
+        <main className="flex-1 p-6">
+          <nav className="mb-4">
+            <ol className="flex space-x-2 text-gray-500">
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>/</li>
+              <li>Products</li>
+            </ol>
+          </nav>
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
