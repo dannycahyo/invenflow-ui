@@ -5,10 +5,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import App from "./App.jsx";
-import Login, { action as loginAction } from "./components/Login.jsx";
+import Login, { action as loginAction } from "./pages/Login.jsx";
 import Register, {
   action as registerAction,
-} from "./components/Register.jsx";
+} from "./pages/Register.jsx";
 import "./index.css";
 
 const router = createBrowserRouter([
