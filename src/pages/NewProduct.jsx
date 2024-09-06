@@ -1,4 +1,5 @@
 import ProductForm from "../components/ProductForm";
+import { fetcher } from "../utils/fetcher";
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -9,16 +10,12 @@ export async function action({ request }) {
     category: formData.get("category"),
   };
 
-  // Handle create logic here
-  const response = await fetch("/api/products", {
+  const response = await fetcher(`/api/products`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(newProduct),
   });
 
-  if (response.ok) {
+  if (response) {
     return { success: true };
   } else {
     return { error: "Failed to create product" };

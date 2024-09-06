@@ -1,11 +1,10 @@
 import { useLoaderData } from "react-router-dom";
 import ProductForm from "../components/ProductForm";
+import { fetcher } from "../utils/fetcher";
 
 export async function loader({ params }) {
-  //   const response = await fetch(`/api/products/${params.productId}`);
-  //   const product = await response.json();
-  console.log(params);
-  return { product: {} };
+  const product = await fetcher(`/api/products/${params.productId}`);
+  return { product };
 }
 
 export async function action({ request, params }) {
@@ -17,16 +16,15 @@ export async function action({ request, params }) {
     category: formData.get("category"),
   };
 
-  // Handle update logic here
-  const response = await fetch(`/api/products/${params.productId}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
+  const response = await fetcher(
+    `/api/products/${params.productId}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(updatedProduct),
     },
-    body: JSON.stringify(updatedProduct),
-  });
+  );
 
-  if (response.ok) {
+  if (response) {
     return { success: true };
   } else {
     return { error: "Failed to update product" };

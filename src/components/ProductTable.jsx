@@ -14,20 +14,20 @@ export default function ProductTable({ products, onDelete }) {
       </thead>
       <tbody>
         {products.map((product) => (
-          <tr key={product.id}>
+          <tr key={product._id}>
             <td className="py-2 px-4 border-b">{product.name}</td>
             <td className="py-2 px-4 border-b">{product.price}</td>
             <td className="py-2 px-4 border-b">{product.quantity}</td>
             <td className="py-2 px-4 border-b">{product.category}</td>
             <td className="py-2 px-4 border-b">
               <Link
-                to={`/products/${product.id}`}
+                to={`/products/${product._id}`}
                 className="px-2 py-1 text-white bg-green-500 rounded"
               >
                 Edit
               </Link>
               <button
-                onClick={() => onDelete(product.id)}
+                onClick={() => onDelete(product._id)}
                 className="px-2 py-1 text-white bg-red-500 rounded ml-2"
               >
                 Delete

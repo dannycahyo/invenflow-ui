@@ -4,11 +4,11 @@ import ProductTable from "../components/ProductTable";
 import ModalConfirmation from "../components/ModalConfirmation";
 import useModal from "../hooks/useModal";
 import usePagination from "../hooks/usePagination";
+import { fetcher } from "../utils/fetcher";
 
 export async function loader() {
-  //   const response = await fetch("/api/products");
-  //   const products = await response.json();
-  return { products: [] };
+  const products = await fetcher("/api/products");
+  return { products };
 }
 
 export default function Products() {
@@ -21,14 +21,13 @@ export default function Products() {
 
   const handleDelete = (productId) => {
     setModalMessage("Are you sure you want to delete this product?");
-    setConfirmAction(() => () => {
-      // Handle delete logic here
-      fetch(`/api/products/${productId}`, { method: "DELETE" }).then(
-        () => {
-          closeModal();
-          // Refresh the product list
-        },
-      );
+    setConfirmAction(() => async () => {
+      await fetcher(`/api/products/${productId}`, {
+        method: "DELETE",
+      });
+      closeModal();
+      // Refresh the product list
+      window.location.reload();
     });
     openModal();
   };

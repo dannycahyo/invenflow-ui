@@ -6,14 +6,16 @@ export default function ProductForm({ product = {}, onClose }) {
   return (
     <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
       <h2 className="text-2xl font-bold mb-4">
-        {product.id ? "Edit Product" : "Add Product"}
+        {product._id ? "Edit Product" : "Add Product"}
       </h2>
       {actionData?.error && (
         <p className="text-red-500">{actionData.error}</p>
       )}
       <Form
-        method="post"
-        action={product.id ? `/products/${product.id}` : "/products"}
+        method={product._id ? "PUT" : "POST"}
+        action={
+          product._id ? `/products/${product._id}` : "/products/new"
+        }
       >
         <div className="space-y-4">
           <div>
