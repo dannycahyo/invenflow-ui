@@ -1,13 +1,25 @@
-import { Form, useActionData } from "react-router-dom";
+import { Form, useActionData, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export async function action({ request }) {
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
 
-  // Handle login logic here
-  if (email === "test@example.com" && password === "password") {
-    return { success: true };
+  const response = await fetch(
+    "https://invenflow-api.vercel.app/api/auth/login",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    },
+  );
+
+  if (response.ok) {
+    const data = await response.json();
+    return { token: data.token };
   } else {
     return { error: "Invalid email or password" };
   }
@@ -15,6 +27,13 @@ export async function action({ request }) {
 
 export default function Login() {
   const actionData = useActionData();
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  if (actionData?.token) {
+    login(actionData.token);
+    navigate("/products");
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

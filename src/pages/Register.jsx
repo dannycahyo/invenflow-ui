@@ -1,4 +1,4 @@
-import { Form, useActionData } from "react-router-dom";
+import { Form, useActionData, useNavigate } from "react-router-dom";
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -6,8 +6,18 @@ export async function action({ request }) {
   const email = formData.get("email");
   const password = formData.get("password");
 
-  // Handle register logic here
-  if (name && email && password) {
+  const response = await fetch(
+    "https://invenflow-api.vercel.app/api/auth/register",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    },
+  );
+
+  if (response.ok) {
     return { success: true };
   } else {
     return { error: "All fields are required" };
@@ -16,6 +26,11 @@ export async function action({ request }) {
 
 export default function Register() {
   const actionData = useActionData();
+  const navigate = useNavigate();
+
+  if (actionData?.success) {
+    navigate("/login");
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

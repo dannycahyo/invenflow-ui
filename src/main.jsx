@@ -20,6 +20,8 @@ import NewProduct, {
   action as newProductAction,
 } from "./pages/NewProduct.jsx";
 import DashboardLayout from "./components/DashboardLayout.jsx";
+import RouteProtection from "./components/RouteProtection.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -29,7 +31,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      // <AuthProvider>
+        <Login />
+      // </AuthProvider>
+    ),
     action: loginAction,
   },
   {
@@ -39,7 +45,13 @@ const router = createBrowserRouter([
   },
   {
     path: "/products",
-    element: <DashboardLayout />,
+    element: (
+      // <AuthProvider>
+        <RouteProtection>
+          <DashboardLayout />
+        </RouteProtection>
+      // </AuthProvider>
+    ),
     children: [
       {
         index: true,
@@ -63,6 +75,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 );
