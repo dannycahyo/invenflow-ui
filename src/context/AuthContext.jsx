@@ -4,10 +4,12 @@ import {
   useState,
   useEffect,
 } from "react";
+// import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
+  //   const navigate = useNavigate();
   const [token, setToken] = useState(
     localStorage.getItem("token") || null,
   );
@@ -22,12 +24,12 @@ export function AuthProvider({ children }) {
 
   const login = (newToken) => {
     setToken(newToken);
-    window.history.pushState({}, "", "/products");
+    // navigate("/products");
   };
 
   const logout = () => {
     setToken(null);
-    window.history.pushState({}, "", "/login");
+    // navigate("/login");
   };
 
   return (
