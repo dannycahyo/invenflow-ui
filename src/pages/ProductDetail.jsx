@@ -1,6 +1,7 @@
 import { useLoaderData } from "react-router-dom";
 import ProductForm from "../components/ProductForm";
 import { fetcher } from "../utils/fetcher";
+import { useActionData, Navigate } from "react-router-dom";
 
 export async function loader({ params }) {
   const product = await fetcher(`/api/products/${params.productId}`);
@@ -33,7 +34,15 @@ export async function action({ request, params }) {
 
 export default function ProductDetail() {
   const { product } = useLoaderData();
+  const actionData = useActionData();
 
+  if (actionData?.error) {
+    return <div className="text-red-500">{actionData.error}</div>;
+  }
+
+  if (actionData?.success) {
+    return <Navigate to="/products" />;
+  }
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <ProductForm product={product} />

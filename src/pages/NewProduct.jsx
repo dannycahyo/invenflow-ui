@@ -1,5 +1,7 @@
+import { useActionData } from "react-router-dom";
 import ProductForm from "../components/ProductForm";
 import { fetcher } from "../utils/fetcher";
+import { Navigate } from "react-router-dom";
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -23,6 +25,15 @@ export async function action({ request }) {
 }
 
 export default function NewProduct() {
+  const actionData = useActionData();
+
+  if (actionData?.error) {
+    return <div className="text-red-500">{actionData.error}</div>;
+  }
+
+  if (actionData?.success) {
+    return <Navigate to="/products" />;
+  }
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <ProductForm />
