@@ -1,4 +1,4 @@
-import { useLoaderData, Link } from "react-router-dom";
+import { useLoaderData, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ProductTable from "../components/ProductTable";
 import ModalConfirmation from "../components/ModalConfirmation";
@@ -16,6 +16,7 @@ export default function Products() {
   const { isModalOpen, openModal, closeModal } = useModal();
   const { currentPage, setCurrentPage, paginatedData } =
     usePagination(products, 10);
+  const navigate = useNavigate();
   const [modalMessage, setModalMessage] = useState("");
   const [confirmAction, setConfirmAction] = useState(null);
 
@@ -26,8 +27,7 @@ export default function Products() {
         method: "DELETE",
       });
       closeModal();
-      // Refresh the product list
-      window.location.reload();
+      navigate("/products");
     });
     openModal();
   };
@@ -47,7 +47,7 @@ export default function Products() {
         products={paginatedData}
         onDelete={handleDelete}
       />
-      <div className="flex justify-end mt-4">
+      <div className="flex gap-4 justify-end mt-4">
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
