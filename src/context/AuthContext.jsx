@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
       localStorage.removeItem("token");
       navigate("/login");
     }
-  }, [token]);
+  }, [navigate, token]);
 
   return (
     <AuthContext.Provider value={{ token, login, logout }}>
