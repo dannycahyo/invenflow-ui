@@ -7,7 +7,7 @@ export async function action({ request }) {
   const password = formData.get("password");
 
   const response = await fetch(
-    "https://invenflow-api.vercel.app/api/auth/register",
+    `${import.meta.env.VITE_API_BASE_URL}/api/auth/register`,
     {
       method: "POST",
       headers: {
