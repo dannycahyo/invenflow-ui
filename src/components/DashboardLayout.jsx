@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { logout } = useAuth();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -51,6 +53,14 @@ export default function DashboardLayout() {
               >
                 Products
               </Link>
+            </li>
+            <li>
+              <button
+                onClick={logout}
+                className="block py-2 px-4 text-gray-700 hover:bg-gray-200 rounded"
+              >
+                Logout
+              </button>
             </li>
           </ul>
         </nav>

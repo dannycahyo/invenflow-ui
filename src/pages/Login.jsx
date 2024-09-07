@@ -1,4 +1,4 @@
-import { Form, useActionData, useNavigate } from "react-router-dom";
+import { Form, useActionData, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export async function action({ request }) {
@@ -28,11 +28,10 @@ export async function action({ request }) {
 export default function Login() {
   const actionData = useActionData();
   const { login } = useAuth();
-  const navigate = useNavigate();
 
   if (actionData?.token) {
     login(actionData.token);
-    navigate("/products");
+    return <Navigate to="/products" />;
   }
 
   return (

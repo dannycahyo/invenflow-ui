@@ -1,4 +1,4 @@
-import { Form, useActionData, useNavigate } from "react-router-dom";
+import { Form, useActionData, Navigate } from "react-router-dom";
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -26,10 +26,9 @@ export async function action({ request }) {
 
 export default function Register() {
   const actionData = useActionData();
-  const navigate = useNavigate();
 
   if (actionData?.success) {
-    navigate("/login");
+    return <Navigate to="/login" />;
   }
 
   return (
