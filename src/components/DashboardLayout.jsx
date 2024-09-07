@@ -54,14 +54,6 @@ export default function DashboardLayout() {
                 Products
               </Link>
             </li>
-            <li>
-              <button
-                onClick={logout}
-                className="block py-2 px-4 text-gray-700 hover:bg-gray-200 rounded"
-              >
-                Logout
-              </button>
-            </li>
           </ul>
         </nav>
       </aside>
@@ -99,7 +91,7 @@ export default function DashboardLayout() {
           <h1 className="text-xl font-bold">Dashboard</h1>
         </header>
         <main className="flex-1 p-6">
-          <nav className="mb-4">
+          <nav className="mb-4 flex justify-between">
             <ol className="flex space-x-2 text-gray-500">
               <li>
                 <Link to="/">Home</Link>
@@ -107,6 +99,12 @@ export default function DashboardLayout() {
               <li>/</li>
               <li>Products</li>
             </ol>
+            <button
+              onClick={logout}
+              className="block py-2 px-4 text-gray-700 bg-gray-200 rounded"
+            >
+              Logout
+            </button>
           </nav>
           <Outlet />
         </main>
